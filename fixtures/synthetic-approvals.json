@@ -1,0 +1,132 @@
+{
+  "approvals": [
+    {
+      "id": "check-indirect-submit-smoke-manifest-1",
+      "actionType": "check",
+      "value": null,
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/indirect-submit-smoke.html",
+      "approved": true
+    },
+    {
+      "id": "combobox-enter-submit-smoke-manifest-1",
+      "actionType": "selectComboboxOption",
+      "value": "Example City",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/combobox-enter-submit-smoke.html#city",
+      "approved": true
+    },
+    {
+      "id": "combobox-focus-submit-smoke-manifest-1",
+      "actionType": "selectComboboxOption",
+      "value": "Example City",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/indirect-submit-smoke.html",
+      "approved": true
+    },
+    {
+      "id": "greenhouse-recovery-smoke-manifest-2",
+      "actionType": "selectLabeledOption",
+      "value": "Yes",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/greenhouse-recovery-smoke.html#retention-consent",
+      "approved": true
+    },
+    {
+      "id": "greenhouse-recovery-smoke-manifest-3",
+      "actionType": "selectLabeledOption",
+      "value": "Example source",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/greenhouse-recovery-smoke.html#decision-influence",
+      "approved": true
+    },
+    {
+      "id": "greenhouse-wrapper-smoke-manifest-2",
+      "actionType": "selectLabeledOption",
+      "value": "Yes",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/greenhouse-recovery-smoke.html#retention-consent",
+      "approved": true
+    },
+    {
+      "id": "greenhouse-wrapper-smoke-manifest-3",
+      "actionType": "selectLabeledOption",
+      "value": "Example source",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/greenhouse-recovery-smoke.html#decision-influence",
+      "approved": true
+    },
+    {
+      "id": "labeled-focus-submit-smoke-manifest-1",
+      "actionType": "selectLabeledOption",
+      "value": "Example City",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/indirect-submit-smoke.html",
+      "approved": true
+    },
+    {
+      "id": "labeled-option-selector-submit-smoke-manifest-1",
+      "actionType": "selectLabeledOption",
+      "value": "Example City",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/option-click-submit-smoke.html#city",
+      "approved": true
+    },
+    {
+      "id": "option-selector-submit-smoke-manifest-1",
+      "actionType": "selectComboboxOption",
+      "value": "Example City",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/option-click-submit-smoke.html#city",
+      "approved": true
+    },
+    {
+      "id": "react-select-smoke-manifest-1",
+      "actionType": "selectComboboxOption",
+      "value": "Example City",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/react-select-smoke.html#location",
+      "approved": true
+    },
+    {
+      "id": "react-select-smoke-manifest-2",
+      "actionType": "selectComboboxOption",
+      "value": "No",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/react-select-smoke.html#sponsorship",
+      "approved": true
+    },
+    {
+      "id": "role-option-indirect-submit-smoke-manifest-1",
+      "actionType": "selectComboboxOption",
+      "value": "Example City",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/indirect-submit-smoke.html",
+      "approved": true
+    },
+    {
+      "id": "roleless-option-submit-smoke-manifest-1",
+      "actionType": "selectComboboxOption",
+      "value": "Example City",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/option-click-submit-smoke.html#city",
+      "approved": true
+    },
+    {
+      "id": "select-indirect-submit-smoke-manifest-1",
+      "actionType": "selectOption",
+      "value": "example",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/indirect-submit-smoke.html",
+      "approved": true
+    },
+    {
+      "id": "type-indirect-submit-smoke-manifest-1",
+      "actionType": "type",
+      "value": "Example",
+      "kind": "synthetic_fixture",
+      "reference": "fixtures/indirect-submit-smoke.html",
+      "approved": true
+    }
+  ]
+}

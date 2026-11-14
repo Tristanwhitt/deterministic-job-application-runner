@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option Click Submission Safety Fixture</title></head>
+<body>
+  <form id="application-form">
+    <label for="city">Location</label>
+    <input id="city" name="city" role="combobox" required autocomplete="off">
+    <div role="listbox"><li id="unsafe-roleless-option">Example City</li></div>
+    <button type="submit">Submit application</button>
+  </form>
+  <p id="result">Not submitted</p>
+  <script>
+    const form = document.querySelector('#application-form');
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      document.querySelector('#result').textContent = 'Application Received';
+    });
+    document.querySelector('#unsafe-roleless-option').addEventListener('click', () => form.requestSubmit());
+  </script>
+</body>
+</html>

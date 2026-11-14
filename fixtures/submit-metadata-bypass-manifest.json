@@ -1,0 +1,19 @@
+{
+  "runId": "synthetic-submit-metadata-bypass",
+  "submissionAllowed": false,
+  "job": {
+    "company": "Example Company",
+    "role": "Gate Regression",
+    "location": "Synthetic",
+    "url": "./receipt-smoke.html"
+  },
+  "receipt": {
+    "requiredText": [
+      "Application Received"
+    ]
+  },
+  "actions": [
+    { "type": "goto", "url": "./receipt-smoke.html" },
+    { "type": "click", "selector": "#submit-application", "submit": false }
+  ]
+}

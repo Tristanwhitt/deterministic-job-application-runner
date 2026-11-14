@@ -1,0 +1,32 @@
+{
+  "submissionAllowed": false,
+  "mode": "inspect",
+  "job": {
+    "company": "Example Company",
+    "role": "Indirect Submission Safety Fixture",
+    "location": "Synthetic",
+    "url": "./indirect-submit-smoke.html"
+  },
+  "verify": {
+    "requiredText": [
+      "Application Received"
+    ]
+  },
+  "runId": "synthetic-select-indirect-submit",
+  "actions": [
+    {
+      "type": "goto",
+      "waitUntil": "load"
+    },
+    {
+      "type": "selectOption",
+      "selector": "#choice",
+      "value": "example",
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/indirect-submit-smoke.html",
+        "approvalId": "select-indirect-submit-smoke-manifest-1"
+      }
+    }
+  ]
+}

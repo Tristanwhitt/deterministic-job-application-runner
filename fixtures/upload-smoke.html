@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Application Runner Upload Fixture</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 720px;
+      margin: 48px auto;
+      padding: 0 24px;
+      line-height: 1.5;
+      color: #17202a;
+    }
+    main {
+      border: 1px solid #cfd7df;
+      border-radius: 8px;
+      padding: 24px;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    .status {
+      border-left: 4px solid #1b7f3a;
+      margin-top: 24px;
+      padding: 12px 16px;
+      background: #eef9f1;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Example Resume Upload Step</h1>
+    <p>This fixture simulates a hidden employer resume input. It does not submit anything externally.</p>
+    <label for="resume">Resume</label>
+    <input id="resume" name="resume" type="file" accept="application/pdf,.pdf">
+    <section id="upload-status" class="status" hidden>
+      <h2>Resume Attached</h2>
+      <p id="file-name"></p>
+      <p id="file-size"></p>
+    </section>
+  </main>
+  <script>
+    document.querySelector('#resume').addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      document.querySelector('#file-name').textContent = `Selected file: ${file.name}`;
+      document.querySelector('#file-size').textContent = `Selected bytes: ${file.size}`;
+      document.querySelector('#upload-status').hidden = false;
+    });
+  </script>
+</body>
+</html>

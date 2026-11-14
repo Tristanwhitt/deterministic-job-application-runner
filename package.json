@@ -1,0 +1,21 @@
+{
+  "name": "deterministic-application-runner",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A deterministic, safety-gated browser runner for synthetic job-application workflows.",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node tests/csv-records.test.js && node tests/safety.test.js",
+    "test:smoke": "node tests/smoke.test.js",
+    "check:syntax": "node scripts/check-syntax.js",
+    "check:privacy": "node scripts/privacy-scan.js",
+    "check:links": "node scripts/check-links.js",
+    "verify": "npm run check:syntax && npm test && npm run test:smoke && npm run check:privacy && npm run check:links"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "dependencies": {
+    "puppeteer-core": "^25.17.0"
+  }
+}

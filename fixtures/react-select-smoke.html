@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Application Runner Combobox Fixture</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 720px;
+      margin: 48px auto;
+      padding: 0 24px;
+      line-height: 1.5;
+      color: #17202a;
+    }
+    main {
+      border: 1px solid #cfd7df;
+      border-radius: 8px;
+      padding: 24px;
+    }
+    label {
+      display: block;
+      font-weight: 700;
+      margin-top: 18px;
+    }
+    input {
+      display: block;
+      font-size: 16px;
+      margin-top: 6px;
+      padding: 8px;
+      width: 100%;
+    }
+    [role="listbox"] {
+      border: 1px solid #9aa7b2;
+      margin-top: 4px;
+      padding: 4px;
+    }
+    [role="option"] {
+      cursor: pointer;
+      padding: 6px;
+    }
+    .status {
+      border-left: 4px solid #1b7f3a;
+      margin-top: 24px;
+      padding: 12px 16px;
+      background: #eef9f1;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Example Greenhouse Select Step</h1>
+    <p>This fixture simulates React-select style required fields. It does not submit anything externally.</p>
+
+    <label for="location">Location (City)</label>
+    <input id="location" required role="combobox" aria-controls="location-options" aria-expanded="false" autocomplete="off">
+    <div id="location-options" role="listbox" hidden></div>
+
+    <label for="sponsorship">Will you now, or in the future, require employment sponsorship?</label>
+    <input id="sponsorship" required role="combobox" aria-controls="sponsorship-options" aria-expanded="false" autocomplete="off">
+    <div id="sponsorship-options" role="listbox" hidden></div>
+
+    <section id="commit-status" class="status" hidden>
+      <h2>Combobox Values Committed</h2>
+      <p id="location-status"></p>
+      <p id="sponsorship-status"></p>
+    </section>
+  </main>
+  <script>
+    const data = {
+      location: ['Example City', 'Sample Town'],
+      sponsorship: ['No', 'Yes']
+    };
+
+    function updateStatus() {
+      const location = document.querySelector('#location').value;
+      const sponsorship = document.querySelector('#sponsorship').value;
+      document.querySelector('#location-status').textContent = `Location committed: ${location}`;
+      document.querySelector('#sponsorship-status').textContent = `Sponsorship committed: ${sponsorship}`;
+      document.querySelector('#commit-status').hidden = !(location && sponsorship);
+    }
+
+    function wire(inputId, listId) {
+      const input = document.querySelector(`#${inputId}`);
+      const list = document.querySelector(`#${listId}`);
+      input.addEventListener('input', () => {
+        const query = input.value.toLowerCase();
+        const matches = data[inputId].filter(item => item.toLowerCase().includes(query));
+        list.innerHTML = matches.map(item => `<div role="option" tabindex="-1">${item}</div>`).join('');
+        list.hidden = matches.length === 0;
+        input.setAttribute('aria-expanded', String(matches.length > 0));
+      });
+      input.addEventListener('keydown', event => {
+        if (event.key !== 'Enter') return;
+        const option = list.querySelector('[role="option"]');
+        if (!option) return;
+        event.preventDefault();
+        input.value = option.textContent;
+        input.setAttribute('aria-valuetext', option.textContent);
+        list.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        updateStatus();
+      });
+      list.addEventListener('click', event => {
+        const option = event.target.closest('[role="option"]');
+        if (!option) return;
+        input.value = option.textContent;
+        input.setAttribute('aria-valuetext', option.textContent);
+        list.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        updateStatus();
+      });
+    }
+
+    wire('location', 'location-options');
+    wire('sponsorship', 'sponsorship-options');
+  </script>
+</body>
+</html>

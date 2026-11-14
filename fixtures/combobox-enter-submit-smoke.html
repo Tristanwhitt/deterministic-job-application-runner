@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Combobox Enter Submission Safety Fixture</title>
+</head>
+<body>
+  <main>
+    <h1>Combobox Enter Submission Safety Fixture</h1>
+    <form id="application-form">
+      <label for="city">Location</label>
+      <input id="city" name="city" role="combobox" required autocomplete="off">
+      <button type="submit">Submit application</button>
+    </form>
+    <p id="result">Not submitted</p>
+  </main>
+  <script>
+    document.querySelector('#application-form').addEventListener('submit', event => {
+      event.preventDefault();
+      document.querySelector('#result').textContent = 'Application Received';
+    });
+  </script>
+</body>
+</html>

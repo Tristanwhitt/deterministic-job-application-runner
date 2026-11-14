@@ -1,0 +1,32 @@
+{
+  "runId": "synthetic-combobox-enter-submit-safety",
+  "submissionAllowed": false,
+  "mode": "inspect",
+  "job": {
+    "company": "Example Company",
+    "role": "Combobox Safety Fixture",
+    "location": "Synthetic",
+    "url": "./combobox-enter-submit-smoke.html"
+  },
+  "actions": [
+    {
+      "type": "goto",
+      "waitUntil": "load"
+    },
+    {
+      "type": "selectComboboxOption",
+      "selector": "#city",
+      "value": "Example City",
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/combobox-enter-submit-smoke.html#city",
+        "approvalId": "combobox-enter-submit-smoke-manifest-1"
+      }
+    }
+  ],
+  "verify": {
+    "requiredText": [
+      "Application Received"
+    ]
+  }
+}

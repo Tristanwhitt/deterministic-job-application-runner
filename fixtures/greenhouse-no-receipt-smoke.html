@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>No Receipt Fixture</title>
+</head>
+<body>
+  <main>
+    <h1>Synthetic Application Fixture</h1>
+    <p>Powered by Greenhouse fixture</p>
+    <form id="application-form">
+      <label for="display-name">Display Name</label>
+      <input id="display-name" required value="Example Candidate">
+      <label for="city">Location (City)</label>
+      <input id="city" required>
+      <p id="city-error" class="field-error" hidden>Please fill out this field.</p>
+      <button id="submit-application" type="submit">Submit application</button>
+    </form>
+  </main>
+  <script>
+    document.querySelector('#application-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const city = document.querySelector('#city');
+      if (!city.value) {
+        city.setAttribute('aria-invalid', 'true');
+        document.querySelector('#city-error').hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

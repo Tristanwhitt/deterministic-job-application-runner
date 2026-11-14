@@ -1,0 +1,26 @@
+{
+  "submissionAllowed": false,
+  "mode": "inspect",
+  "job": {
+    "company": "Example Company",
+    "role": "Indirect Submission Safety Fixture",
+    "location": "Synthetic",
+    "url": "./indirect-submit-smoke.html"
+  },
+  "verify": {
+    "requiredText": [
+      "Application Received"
+    ]
+  },
+  "runId": "synthetic-click-indirect-submit",
+  "actions": [
+    {
+      "type": "goto",
+      "waitUntil": "load"
+    },
+    {
+      "type": "click",
+      "selector": "#script-submit"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Privacy
+
+The repository intentionally excludes:
+
+- real employer URLs and manifests;
+- applicant defaults and contact details;
+- real resumes and tracker data;
+- browser profiles, cookies, credentials, and account linkage;
+- logs, screenshots, proof packets, and other generated artifacts;
+- internal orchestration prompts or operating instructions;
+- machine-specific user paths.
+
+Only synthetic names, values, pages, and a synthetic PDF upload fixture are included. Runtime artifacts and private input directories are ignored.
+
+Before publishing, run:
+
+```sh
+npm run check:privacy
+npm run check:links
+```
+
+The privacy scan detects common contact data, machine-local paths, credential assignments, private-key material, social profile URLs, and unexpected URLs. It complements, but does not replace, a manual review of the final inventory.

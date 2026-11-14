@@ -1,0 +1,58 @@
+{
+  "runId": "synthetic-wrapper-smoke",
+  "mode": "inspect",
+  "job": {
+    "company": "Example Company",
+    "role": "Wrapper Fixture",
+    "location": "Synthetic",
+    "url": "./greenhouse-wrapper-smoke.html"
+  },
+  "actions": [
+    {
+      "type": "goto",
+      "waitUntil": "load"
+    },
+    {
+      "type": "uploadResume",
+      "frameUrlPattern": "greenhouse-recovery-smoke",
+      "file": "fixtures/resumes/synthetic-resume.pdf"
+    },
+    {
+      "type": "selectLabeledOption",
+      "frameUrlPattern": "greenhouse-recovery-smoke",
+      "label": "personal information retained",
+      "value": "Yes",
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/greenhouse-recovery-smoke.html#retention-consent",
+        "approvalId": "greenhouse-wrapper-smoke-manifest-2"
+      }
+    },
+    {
+      "type": "selectLabeledOption",
+      "frameUrlPattern": "greenhouse-recovery-smoke",
+      "label": "most influenced your decision to apply",
+      "value": "Example source",
+      "clickOptionText": true,
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/greenhouse-recovery-smoke.html#decision-influence",
+        "approvalId": "greenhouse-wrapper-smoke-manifest-3"
+      }
+    },
+    {
+      "type": "captureValidation",
+      "frameUrlPattern": "greenhouse-recovery-smoke",
+      "failOnInvalid": true
+    },
+    {
+      "type": "screenshot",
+      "label": "wrapper-committed"
+    }
+  ],
+  "verify": {
+    "requiredText": [
+      "Company careers wrapper"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "runId": "synthetic-no-receipt-smoke",
+  "submissionAllowed": true,
+  "job": {
+    "company": "Greenhouse Fixture",
+    "role": "No Receipt Regression",
+    "location": "Synthetic",
+    "url": "./greenhouse-no-receipt-smoke.html"
+  },
+  "receipt": {
+    "requiredText": [
+      "Application Received"
+    ]
+  },
+  "actions": [
+    { "type": "goto", "waitUntil": "load" },
+    { "type": "screenshot", "label": "presubmit" },
+    { "type": "click", "selector": "#submit-application", "submit": true },
+    { "type": "captureValidation" },
+    { "type": "screenshot", "label": "after-submit-no-receipt" }
+  ]
+}

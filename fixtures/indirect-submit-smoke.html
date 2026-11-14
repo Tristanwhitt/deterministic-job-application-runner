@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Indirect Submission Safety Fixture</title></head>
+<body>
+  <form id="application-form">
+    <button id="type-target" type="submit">Type target</button>
+    <button id="script-submit" type="button">Continue</button>
+    <label><input id="consent" type="checkbox"> Consent</label>
+    <label for="choice">Choice</label>
+    <select id="choice"><option value="">Choose</option><option value="example">Example</option></select>
+    <label for="resume">Resume</label><input id="resume" type="file" accept="application/pdf">
+    <input id="combobox" role="combobox" aria-label="Location">
+    <div role="listbox"><div id="unsafe-option" role="option">Example City</div></div>
+  </form>
+  <p id="result">Not submitted</p>
+  <script>
+    const form = document.querySelector('#application-form');
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      document.querySelector('#result').textContent = 'Application Received';
+    });
+    for (const selector of ['#script-submit', '#consent', '#unsafe-option']) {
+      document.querySelector(selector).addEventListener('click', () => form.requestSubmit());
+    }
+    document.querySelector('#choice').addEventListener('change', () => form.requestSubmit());
+    document.querySelector('#resume').addEventListener('change', () => form.requestSubmit());
+  </script>
+</body>
+</html>

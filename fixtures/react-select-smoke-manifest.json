@@ -1,0 +1,53 @@
+{
+  "runId": "synthetic-combobox-smoke",
+  "mode": "inspect",
+  "job": {
+    "company": "Example Company",
+    "role": "Combobox Fixture",
+    "location": "Synthetic",
+    "url": "./react-select-smoke.html"
+  },
+  "actions": [
+    {
+      "type": "goto",
+      "waitUntil": "load"
+    },
+    {
+      "type": "selectComboboxOption",
+      "label": "Location (City)",
+      "value": "Example City",
+      "optionSelector": "#location-options [role=option]",
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/react-select-smoke.html#location",
+        "approvalId": "react-select-smoke-manifest-1"
+      }
+    },
+    {
+      "type": "selectComboboxOption",
+      "label": "employment sponsorship",
+      "value": "No",
+      "optionSelector": "#sponsorship-options [role=option]",
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/react-select-smoke.html#sponsorship",
+        "approvalId": "react-select-smoke-manifest-2"
+      }
+    },
+    {
+      "type": "captureValidation",
+      "failOnInvalid": true
+    },
+    {
+      "type": "screenshot",
+      "label": "combobox-committed"
+    }
+  ],
+  "verify": {
+    "requiredText": [
+      "Combobox Values Committed",
+      "Location committed: Example City",
+      "Sponsorship committed: No"
+    ]
+  }
+}

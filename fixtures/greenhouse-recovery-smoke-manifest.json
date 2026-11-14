@@ -1,0 +1,57 @@
+{
+  "runId": "synthetic-recovery-smoke",
+  "mode": "inspect",
+  "job": {
+    "company": "Example Company",
+    "role": "Recovery Fixture",
+    "location": "Synthetic",
+    "url": "./greenhouse-recovery-smoke.html"
+  },
+  "actions": [
+    {
+      "type": "goto",
+      "waitUntil": "load"
+    },
+    {
+      "type": "uploadResume",
+      "file": "fixtures/resumes/synthetic-resume.pdf"
+    },
+    {
+      "type": "selectLabeledOption",
+      "label": "personal information retained",
+      "value": "Yes",
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/greenhouse-recovery-smoke.html#retention-consent",
+        "approvalId": "greenhouse-recovery-smoke-manifest-2"
+      }
+    },
+    {
+      "type": "selectLabeledOption",
+      "label": "most influenced your decision to apply",
+      "value": "Example source",
+      "clickOptionText": true,
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/greenhouse-recovery-smoke.html#decision-influence",
+        "approvalId": "greenhouse-recovery-smoke-manifest-3"
+      }
+    },
+    {
+      "type": "captureValidation",
+      "failOnInvalid": true
+    },
+    {
+      "type": "screenshot",
+      "label": "recovery-committed"
+    }
+  ],
+  "verify": {
+    "requiredText": [
+      "Greenhouse Recovery Values Committed",
+      "Resume retained: synthetic-resume.pdf",
+      "Retention consent: Yes",
+      "Decision influence: Example source"
+    ]
+  }
+}

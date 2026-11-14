@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Application Runner Smoke Fixture</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 720px;
+      margin: 48px auto;
+      padding: 0 24px;
+      line-height: 1.5;
+      color: #17202a;
+    }
+    main {
+      border: 1px solid #cfd7df;
+      border-radius: 8px;
+      padding: 24px;
+    }
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 6px;
+      background: #165dff;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 12px 16px;
+    }
+    .receipt {
+      border-left: 4px solid #1b7f3a;
+      margin-top: 24px;
+      padding: 12px 16px;
+      background: #eef9f1;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Synthetic Application</h1>
+    <p>This fixture simulates a final application review page. It does not submit anything externally.</p>
+    <button id="submit-application" type="button">Submit Application</button>
+    <section id="receipt" class="receipt" hidden>
+      <h2>Application Received</h2>
+      <p>Synthetic confirmation. No external application was submitted.</p>
+    </section>
+  </main>
+  <script>
+    document.querySelector('#submit-application').addEventListener('click', () => {
+      document.querySelector('#receipt').hidden = false;
+    });
+  </script>
+</body>
+</html>

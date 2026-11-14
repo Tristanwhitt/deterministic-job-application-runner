@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Greenhouse Recovery Fixture</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 760px; margin: 48px auto; padding: 0 24px; line-height: 1.5; color: #17202a; }
+    main { border: 1px solid #cfd7df; border-radius: 8px; padding: 24px; }
+    label, .field-label { display: block; font-weight: 700; margin-top: 18px; }
+    input[type="file"] { display: none; }
+    select, input[role="combobox"] { display: block; font-size: 16px; margin-top: 6px; padding: 8px; width: 100%; }
+    [role="listbox"] { border: 1px solid #9aa7b2; margin-top: 4px; padding: 4px; }
+    [role="option"] { cursor: pointer; padding: 6px; }
+    .status { border-left: 4px solid #1b7f3a; margin-top: 24px; padding: 12px 16px; background: #eef9f1; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Greenhouse Recovery Fixture</h1>
+    <p>This fixture simulates hidden Greenhouse resume inputs and dynamic retained-information controls. It never submits externally.</p>
+
+    <section class="field">
+      <label for="current-resume-input">Resume/CV *</label>
+      <input id="current-resume-input" name="candidate[resume]" type="file" accept="application/pdf,.pdf" required>
+    </section>
+
+    <section class="field application-question">
+      <label for="retention-consent">I consent to have my personal information retained *</label>
+      <select id="retention-consent" required>
+        <option value="">Select...</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </section>
+
+    <section class="field application-question">
+      <div class="field-label">Which of the following most influenced your decision to apply?</div>
+      <input id="decision-influence" required role="combobox" aria-controls="decision-options" aria-expanded="false" autocomplete="off">
+      <div id="decision-options" role="listbox" hidden></div>
+    </section>
+
+    <section id="recovery-status" class="status">
+      <h2>Greenhouse Recovery Values Committed</h2>
+      <p id="resume-status"></p>
+      <p id="retention-status"></p>
+      <p id="decision-status"></p>
+    </section>
+  </main>
+  <script>
+    const decisionOptions = ['Example source', 'Synthetic referral'];
+    const resume = document.querySelector('#current-resume-input');
+    const retention = document.querySelector('#retention-consent');
+    const decision = document.querySelector('#decision-influence');
+    const decisionList = document.querySelector('#decision-options');
+
+    function updateStatus() {
+      const file = resume.files[0];
+      document.querySelector('#resume-status').textContent = file ? `Resume retained: ${file.name}` : '';
+      document.querySelector('#retention-status').textContent = retention.value ? `Retention consent: ${retention.value}` : '';
+      document.querySelector('#decision-status').textContent = decision.value ? `Decision influence: ${decision.value}` : '';
+      document.querySelector('#recovery-status').hidden = false;
+    }
+
+    resume.addEventListener('change', updateStatus);
+    retention.addEventListener('change', updateStatus);
+    decision.addEventListener('change', updateStatus);
+    decision.addEventListener('input', () => {
+      const query = decision.value.toLowerCase();
+      const matches = decisionOptions.filter(item => item.toLowerCase().includes(query));
+      decisionList.innerHTML = matches.map(item => `<div role="option" tabindex="-1">${item}</div>`).join('');
+      decisionList.hidden = matches.length === 0;
+      decision.setAttribute('aria-expanded', String(matches.length > 0));
+    });
+    decision.addEventListener('keydown', event => {
+      if (event.key !== 'Enter') return;
+      const option = decisionList.querySelector('[role="option"]');
+      if (!option) return;
+      event.preventDefault();
+      decision.value = option.textContent;
+      decision.setAttribute('aria-valuetext', option.textContent);
+      decisionList.hidden = true;
+      decision.setAttribute('aria-expanded', 'false');
+      decision.dispatchEvent(new Event('change', { bubbles: true }));
+      updateStatus();
+    });
+    decisionList.addEventListener('click', event => {
+      const option = event.target.closest('[role="option"]');
+      if (!option) return;
+      decision.value = option.textContent;
+      decision.setAttribute('aria-valuetext', option.textContent);
+      decisionList.hidden = true;
+      decision.setAttribute('aria-expanded', 'false');
+      decision.dispatchEvent(new Event('change', { bubbles: true }));
+      updateStatus();
+    });
+  </script>
+</body>
+</html>

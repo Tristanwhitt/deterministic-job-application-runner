@@ -1,0 +1,33 @@
+{
+  "runId": "synthetic-option-selector-submit-safety",
+  "submissionAllowed": false,
+  "mode": "inspect",
+  "job": {
+    "company": "Example Company",
+    "role": "Option Selector Safety Fixture",
+    "location": "Synthetic",
+    "url": "./option-click-submit-smoke.html"
+  },
+  "actions": [
+    {
+      "type": "goto",
+      "waitUntil": "load"
+    },
+    {
+      "type": "selectComboboxOption",
+      "selector": "#city",
+      "value": "Example City",
+      "optionSelector": "button[type=submit]",
+      "provenance": {
+        "kind": "synthetic_fixture",
+        "reference": "fixtures/option-click-submit-smoke.html#city",
+        "approvalId": "option-selector-submit-smoke-manifest-1"
+      }
+    }
+  ],
+  "verify": {
+    "requiredText": [
+      "Application Received"
+    ]
+  }
+}

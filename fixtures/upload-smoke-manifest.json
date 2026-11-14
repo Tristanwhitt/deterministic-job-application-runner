@@ -1,0 +1,27 @@
+{
+  "runId": "synthetic-upload-smoke",
+  "mode": "inspect",
+  "job": {
+    "company": "Example Company",
+    "role": "Upload Fixture",
+    "location": "Synthetic",
+    "url": "./upload-smoke.html"
+  },
+  "actions": [
+    { "type": "goto", "waitUntil": "load" },
+    {
+      "type": "uploadResume",
+      "selector": "#resume",
+      "file": "fixtures/resumes/synthetic-resume.pdf"
+    },
+    { "type": "waitForText", "text": "Resume Attached", "timeoutMs": 3000 },
+    { "type": "waitForText", "text": "Selected file: synthetic-resume.pdf", "timeoutMs": 3000 },
+    { "type": "screenshot", "label": "synthetic-upload" }
+  ],
+  "verify": {
+    "requiredText": [
+      "Resume Attached",
+      "Selected file: synthetic-resume.pdf"
+    ]
+  }
+}
