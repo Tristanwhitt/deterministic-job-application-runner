@@ -82,6 +82,10 @@ APPLICATION_RUNNER_RESUME_DIR=fixtures/resumes \
 
 Runs write logs and screenshots under `artifacts/`, which is ignored. A successful submit-mode run requires all configured receipt text and at least one screenshot whose label contains `receipt`. Otherwise the run is non-countable.
 
+## Claude Code user guide
+
+For end-to-end setup instructions, copy/paste prompts, inspect-only runs, human approval, submission, and receipt verification, see [Using the Application Runner with Claude Code](CLAUDE-CODE-GUIDE.md).
+
 ## Design notes
 
 - [Architecture](docs/ARCHITECTURE.md)
