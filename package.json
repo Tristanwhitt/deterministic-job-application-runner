@@ -1,11 +1,13 @@
 {
   "name": "deterministic-application-runner",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "A deterministic, safety-gated browser runner for synthetic job-application workflows.",
+  "description": "A deterministic, safety-gated local browser runner for reviewed job applications.",
   "type": "commonjs",
   "scripts": {
-    "test": "node tests/csv-records.test.js && node tests/safety.test.js",
+    "setup": "node scripts/setup.js",
+    "doctor": "node scripts/doctor.js",
+    "test": "node tests/csv-records.test.js && node tests/safety.test.js && node tests/setup-doctor.test.js",
     "test:smoke": "node tests/smoke.test.js",
     "check:syntax": "node scripts/check-syntax.js",
     "check:privacy": "node scripts/privacy-scan.js",
@@ -16,6 +18,7 @@
     "node": ">=22.12"
   },
   "dependencies": {
+    "pdfjs-dist": "6.5.438",
     "puppeteer-core": "^25.17.0"
   }
 }

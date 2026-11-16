@@ -1,0 +1,18 @@
+{
+  "runId": "synthetic-inspect-direct-submit",
+  "mode": "inspect",
+  "submissionAllowed": false,
+  "job": {
+    "company": "Example Company",
+    "role": "Example Role",
+    "location": "Synthetic",
+    "url": "./receipt-smoke.html"
+  },
+  "verify": {
+    "requiredText": ["Synthetic Application"]
+  },
+  "actions": [
+    { "type": "goto" },
+    { "type": "click", "selector": "#submit-application", "submit": true }
+  ]
+}

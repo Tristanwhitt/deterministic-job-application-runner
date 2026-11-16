@@ -34,6 +34,21 @@ let result = execute('smoke-manifest.json', ['--allow-submit']);
 assert.strictEqual(result.status, 0);
 assert.strictEqual(result.output.status, 'submitted_receipt_verified');
 assert.strictEqual(result.output.receipt.confirmed, true);
+assert.strictEqual(result.output.receipt.successfulSubmitActionCount, 1);
+assert.strictEqual(result.output.receipt.receiptScreenshotAfterSubmit, true);
+
+result = execute('preexisting-receipt-smoke-manifest.json', ['--allow-submit']);
+assert.strictEqual(result.status, 3);
+assert.strictEqual(result.output.status, 'receipt_not_verified');
+assert.strictEqual(result.output.receipt.confirmed, false);
+assert.strictEqual(result.output.receipt.successfulSubmitActionCount, 0);
+assert.strictEqual(result.output.receipt.outcome, 'no_successful_submit_action');
+
+result = execute('multiple-submit-smoke-manifest.json', ['--allow-submit']);
+assert.strictEqual(result.status, 1);
+assert.strictEqual(result.output.status, 'blocked_or_failed');
+assert.strictEqual(result.output.receipt, null);
+assert.match(result.output.error, /only one submit-capable action is allowed per run/);
 
 result = execute('smoke-manifest.json');
 assert.strictEqual(result.status, 1);
@@ -44,6 +59,18 @@ result = execute('submit-metadata-bypass-manifest.json', ['--allow-submit']);
 assert.strictEqual(result.status, 1);
 assert.strictEqual(result.output.status, 'blocked_or_failed');
 assert.match(result.output.error, /submissionAllowed and --allow-submit/);
+
+result = execute('inspect-direct-submit-smoke-manifest.json', ['--allow-submit']);
+assert.strictEqual(result.status, 1);
+assert.strictEqual(result.output.status, 'blocked_or_failed');
+assert.match(result.output.error, /inspect mode cannot execute a submit-capable action/);
+assert.notStrictEqual(result.output.status, 'page_verified');
+
+result = execute('type-indirect-submit-smoke-manifest.json', ['--allow-submit']);
+assert.strictEqual(result.status, 1);
+assert.strictEqual(result.output.status, 'blocked_or_failed');
+assert.match(result.output.error, /Submission blocked during type/);
+assert.notStrictEqual(result.output.status, 'page_verified');
 
 result = execute('combobox-enter-submit-smoke-manifest.json');
 assert.strictEqual(result.status, 1);
@@ -58,7 +85,7 @@ for (const manifest of [
   result = execute(manifest);
   assert.strictEqual(result.status, 1);
   assert.strictEqual(result.output.status, 'blocked_or_failed');
-  assert.match(result.output.error, /submissionAllowed and --allow-submit/);
+  assert.match(result.output.error, /inspect mode cannot execute a submit-capable action/);
   assert.notStrictEqual(result.output.status, 'page_verified');
 }
 

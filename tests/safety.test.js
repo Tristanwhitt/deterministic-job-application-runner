@@ -4,8 +4,12 @@ const assert = require('assert');
 const {
   classifyReceiptOutcome,
   requireApprovedProvenance,
+  requireManifest,
   slug
 } = require('../runner');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 
 const registry = [{
   id: 'approved-example',
@@ -54,5 +58,24 @@ const outcome = classifyReceiptOutcome({
 });
 assert.strictEqual(outcome, 'greenhouse_validation_blocked');
 assert.strictEqual(slug('Synthetic Run!'), 'synthetic-run');
+
+const manifestRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'application-runner-manifest-'));
+try {
+  for (const [name, submissionAllowed] of [['missing', undefined], ['true', true], ['null', null]]) {
+    const manifestPath = path.join(manifestRoot, `${name}.json`);
+    const manifest = {
+      runId: `inspect-${name}`,
+      mode: 'inspect',
+      job: { company: 'Example Company', role: 'Example Role' },
+      verify: { requiredText: ['Example'] },
+      actions: [{ type: 'goto', url: './synthetic-example.html' }]
+    };
+    if (submissionAllowed !== undefined) manifest.submissionAllowed = submissionAllowed;
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest));
+    assert.throws(() => requireManifest(manifestPath), /submissionAllowed to be exactly false/);
+  }
+} finally {
+  fs.rmSync(manifestRoot, { recursive: true, force: true });
+}
 
 console.log('safety unit tests: ok');

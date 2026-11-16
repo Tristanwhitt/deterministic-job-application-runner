@@ -10,7 +10,7 @@ The repository intentionally excludes:
 - internal orchestration prompts or operating instructions;
 - machine-specific user paths.
 
-Only synthetic names, values, pages, and a synthetic PDF upload fixture are included. Runtime artifacts and private input directories are ignored.
+Only generic disabled templates plus synthetic test names, values, pages, and a synthetic PDF upload fixture are committed. Runtime artifacts and private input directories are ignored. `npm run doctor` reports only readiness metadata such as counts and file state; it does not print resume contents or approval values.
 
 Before publishing, run:
 

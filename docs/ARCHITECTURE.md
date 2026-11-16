@@ -16,5 +16,8 @@ Core modules:
 - `fixtures/`: synthetic local pages and manifests.
 - `tests/`: unit regressions and browser smoke coverage.
 - `scripts/`: syntax, privacy, and Markdown-link checks.
+- `scripts/setup.js`: idempotent creation of ignored user storage from safe templates.
+- `scripts/doctor.js`: local readiness checks for runtime prerequisites, recognizable PDF structure, and runner-usable approval entries; it reports metadata only, never private values.
+- `templates/`: generic, disabled starting points copied into ignored private storage.
 
 There is no model runtime in this package. Agent workflows can produce manifests, but they do not bypass runner policy.

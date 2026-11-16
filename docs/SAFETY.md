@@ -4,6 +4,8 @@
 
 A resolved control is submit-capable when its native DOM behavior, visible text, accessible text, selector signal, or manifest metadata indicates submit/apply behavior. Clicking such a control requires both `submissionAllowed: true` and `--allow-submit`.
 
+Inspect mode requires `submissionAllowed: false` exactly and rejects submit-capable controls even when `--allow-submit` is present. The runner blocks a second submit-capable action in one run. Submit success additionally requires exactly one successful authorized submit-capable action and a later receipt-labelled screenshot; zero or additional attempts remain non-countable.
+
 The DOM classification is authoritative: caller metadata may strengthen classification but cannot downgrade it.
 
 ## Source-backed answers

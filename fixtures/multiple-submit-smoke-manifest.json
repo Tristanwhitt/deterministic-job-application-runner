@@ -1,0 +1,20 @@
+{
+  "runId": "synthetic-multiple-submit",
+  "mode": "submit",
+  "submissionAllowed": true,
+  "job": {
+    "company": "Example Company",
+    "role": "Example Role",
+    "location": "Synthetic",
+    "url": "./receipt-smoke.html"
+  },
+  "receipt": {
+    "requiredText": ["Application Received", "Synthetic confirmation"]
+  },
+  "actions": [
+    { "type": "goto" },
+    { "type": "click", "selector": "#submit-application", "submit": true },
+    { "type": "click", "selector": "#submit-application", "submit": true },
+    { "type": "screenshot", "label": "receipt" }
+  ]
+}

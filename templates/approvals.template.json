@@ -1,0 +1,12 @@
+{
+  "approvals": [
+    {
+      "id": "replace-company-role-field-1",
+      "actionType": "type",
+      "value": "REPLACE_WITH_EXACT_REVIEWED_VALUE",
+      "kind": "user_confirmed",
+      "reference": "REPLACE_WITH_PRIVATE_SOURCE_REFERENCE",
+      "approved": false
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "runId": "synthetic-preexisting-receipt",
+  "mode": "submit",
+  "submissionAllowed": true,
+  "job": {
+    "company": "Example Company",
+    "role": "Example Role",
+    "location": "Synthetic",
+    "url": "./preexisting-receipt-smoke.html"
+  },
+  "receipt": {
+    "requiredText": ["Application Received", "Synthetic confirmation"]
+  },
+  "actions": [
+    { "type": "goto" },
+    { "type": "screenshot", "label": "receipt" }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "runId": "replace-company-role-inspect",
+  "mode": "inspect",
+  "submissionAllowed": false,
+  "job": {
+    "company": "REPLACE_WITH_COMPANY",
+    "role": "REPLACE_WITH_ROLE",
+    "location": "REPLACE_WITH_LOCATION",
+    "url": "REPLACE_WITH_OFFICIAL_EMPLOYER_ATS_URL"
+  },
+  "verify": {
+    "requiredText": [
+      "REPLACE_WITH_EXACT_EXPECTED_FORM_TEXT"
+    ]
+  },
+  "actions": [
+    {
+      "type": "goto"
+    },
+    {
+      "type": "type",
+      "selector": "REPLACE_WITH_EXACT_FIELD_SELECTOR",
+      "value": "REPLACE_WITH_EXACT_REVIEWED_VALUE",
+      "provenance": {
+        "approvalId": "replace-company-role-field-1",
+        "kind": "user_confirmed",
+        "reference": "REPLACE_WITH_PRIVATE_SOURCE_REFERENCE"
+      }
+    },
+    {
+      "type": "uploadResume",
+      "file": "private/resumes/resume.pdf",
+      "labelPatterns": [
+        "resume",
+        "cv"
+      ]
+    },
+    {
+      "type": "captureValidation",
+      "failOnInvalid": true
+    },
+    {
+      "type": "screenshot",
+      "label": "inspect-review"
+    }
+  ]
+}

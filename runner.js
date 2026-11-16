@@ -114,6 +114,9 @@ function requireManifest(filePath) {
   if (!Array.isArray(manifest.actions) || manifest.actions.length === 0) {
     throw new Error('manifest.actions must be a non-empty array');
   }
+  if (manifest.mode === 'inspect' && manifest.submissionAllowed !== false) {
+    throw new Error('inspect mode requires manifest.submissionAllowed to be exactly false');
+  }
   if (manifest.mode === 'submit' && (!manifest.receipt || !Array.isArray(manifest.receipt.requiredText) || manifest.receipt.requiredText.length === 0)) {
     throw new Error('manifest.receipt.requiredText must be a non-empty array in submit mode');
   }
@@ -586,6 +589,12 @@ async function isSubmitCapable(page, selector) {
 async function guardedClick(page, selector, manifest, errorPrefix = 'Click', forceSubmitCapable = false) {
   await page.waitForSelector(selector, { visible: true, timeout: 10000 });
   const submitCapable = forceSubmitCapable || await isSubmitCapable(page, selector);
+  if (submitCapable && manifest.mode === 'inspect') {
+    throw new Error(`${errorPrefix} blocked: inspect mode cannot execute a submit-capable action`);
+  }
+  if (submitCapable && manifest.runtimeSuccessfulSubmitActionCount > 0) {
+    throw new Error(`${errorPrefix} blocked: only one submit-capable action is allowed per run`);
+  }
   if (submitCapable && (!manifest.submissionAllowed || !ALLOW_SUBMIT)) {
     throw new Error(`${errorPrefix} blocked: manifest.submissionAllowed and --allow-submit are both required`);
   }
@@ -823,6 +832,9 @@ async function runAction({ page, manifest, manifestDir, action, runSlug, screens
     await context.waitForSelector(action.selector, { visible: true, timeout: action.timeoutMs || 10000 });
     const domSubmitCapable = await isSubmitCapable(context, action.selector);
     const submitCapable = Boolean(action.submit) || domSubmitCapable;
+    if (submitCapable && manifest.mode === 'inspect') {
+      throw new Error('Submit click blocked: inspect mode cannot execute a submit-capable action');
+    }
     if (submitCapable && (!manifest.submissionAllowed || !ALLOW_SUBMIT)) {
       throw new Error('Submit click blocked: manifest.submissionAllowed and --allow-submit are both required');
     }
@@ -964,6 +976,12 @@ async function main() {
   const absoluteManifest = path.resolve(process.cwd(), manifestPath);
   const manifestDir = path.dirname(absoluteManifest);
   const manifest = requireManifest(absoluteManifest);
+  Object.defineProperty(manifest, 'runtimeSuccessfulSubmitActionCount', {
+    configurable: false,
+    enumerable: false,
+    writable: true,
+    value: 0
+  });
   fs.mkdirSync(PROOF_DIR, { recursive: true });
   fs.mkdirSync(LOG_DIR, { recursive: true });
 
@@ -978,6 +996,7 @@ async function main() {
     receiptRequiredText: manifest.receipt ? manifest.receipt.requiredText : [],
     verifyRequiredText: manifest.verify ? manifest.verify.requiredText : [],
     actions: [],
+    successfulSubmitActions: [],
     screenshots: [],
     receipt: null,
     verification: null,
@@ -997,7 +1016,8 @@ async function main() {
   await page.setViewport({ width: 1365, height: 1600, deviceScaleFactor: 1 });
 
   try {
-    for (const action of manifest.actions) {
+    for (const [actionIndex, action] of manifest.actions.entries()) {
+      manifest.runtimeSuccessfulSubmitActionCount = log.successfulSubmitActions.length;
       const blockedBefore = await blockedSubmissionCount(page);
       const result = await runAction({ page, manifest, manifestDir, action, runSlug, screenshots: log.screenshots });
       const blockedAfter = await blockedSubmissionCount(page);
@@ -1005,6 +1025,13 @@ async function main() {
         throw new Error(`Submission blocked during ${action.type}: action was not authorized by both submission gates`);
       }
       log.actions.push(result);
+      if (result.submitCapable === true) {
+        log.successfulSubmitActions.push({
+          actionIndex,
+          type: result.type,
+          selector: result.selector || null
+        });
+      }
     }
 
     const text = await bodyText(page);
@@ -1023,15 +1050,27 @@ async function main() {
       process.exitCode = confirmed ? 0 : 3;
     } else {
       const missing = manifest.receipt.requiredText.filter(required => !text.includes(required));
-      const hasReceiptScreenshot = log.screenshots.some(item => /receipt/i.test(item));
-      const confirmed = missing.length === 0 && hasReceiptScreenshot;
+      const receiptScreenshotActionIndexes = log.actions
+        .map((action, index) => action.type === 'screenshot' && /receipt/i.test(action.path || action.label || '') ? index : -1)
+        .filter(index => index >= 0);
+      const submitActionCount = log.successfulSubmitActions.length;
+      const onlySubmitAction = submitActionCount === 1 ? log.successfulSubmitActions[0] : null;
+      const hasReceiptScreenshot = onlySubmitAction !== null && receiptScreenshotActionIndexes.some(index => index > onlySubmitAction.actionIndex);
+      const confirmed = submitActionCount === 1 && missing.length === 0 && hasReceiptScreenshot;
       const validationState = await extractValidationState(page);
+      let outcome;
+      if (submitActionCount === 0) outcome = 'no_successful_submit_action';
+      else if (submitActionCount > 1) outcome = 'ambiguous_multiple_submit_actions';
+      else if (!hasReceiptScreenshot) outcome = 'receipt_screenshot_missing_after_submit';
+      else outcome = classifyReceiptOutcome({ manifest, text, receiptMissing: missing, validationState, hasReceiptScreenshot });
       log.receipt = {
         confirmed,
+        successfulSubmitActionCount: submitActionCount,
+        receiptScreenshotAfterSubmit: hasReceiptScreenshot,
         finalUrl: page.url(),
         title: await page.title(),
         missingRequiredText: missing,
-        outcome: classifyReceiptOutcome({ manifest, text, receiptMissing: missing, validationState, hasReceiptScreenshot }),
+        outcome,
         validation: validationState,
         textSnippet: text.slice(0, 2400)
       };
@@ -1064,6 +1103,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  browserExecutable,
   classifyReceiptOutcome,
   requireApprovedProvenance,
   requireManifest,

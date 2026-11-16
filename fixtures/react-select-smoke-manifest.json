@@ -1,4 +1,5 @@
 {
+  "submissionAllowed": false,
   "runId": "synthetic-combobox-smoke",
   "mode": "inspect",
   "job": {
